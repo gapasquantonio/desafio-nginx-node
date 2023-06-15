@@ -8,22 +8,25 @@ const config = {
     database: "nodedb"
 };
 const mysql = require("mysql")
-const connection = mysql.createConnection(config)
 
 
 
 app.get("/",(req,res)=>{
-  const sql = `INSERT INTO people(name) values("Gabriel")`
-  connection.query(sql)
-  connection.query(`SELECT * FROM people`, (error, result, fields) => {
+  const connection = mysql.createConnection(config)
+  const insert = `INSERT INTO people(name) values("Gabriel")`;
+  const select = `SELECT * FROM people`;
+  connection.query(insert)
+  connection.query(select, (error, result, fields) => {
     console.log(result)
-    res.send(`
-      <h1>Full Cycle Rocks!</h1>
-      <ol>
-        ${!!result.length ? result.map(el => `<li>${el.name}</li>`).join('') : ''}
-      </ol>
-    `)
+    if (error) throw error;
+    let names= "<br><ul>";
+    for (let i = 0; i < result.length; i++) {
+        names += `<li>Nome: ${result[i].name}</li>`;
+    }
+    names += '</ul>';
+    res.send(`<h1>Full Cycle Rocks!</h1> ${names}`);
   })
+  connection.end();
 })
 
 
