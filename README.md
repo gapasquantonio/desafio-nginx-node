@@ -10,6 +10,6 @@ Para executar o desafio execute os comandos abaixo:
 
     $ cd desafio-nginx-node
 
-    $ docker-compose up -d 
+    $ docker-compose up -d --build
 
     $ acessar porta porta: 8080.
